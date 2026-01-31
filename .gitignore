@@ -1,0 +1,25 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+
+# ---- Virtual environments ----
+.venv/
+.env
+.env.test
+
+# ---- OS / editor junk ----
+.DS_Store
+*.swp
+*.swo
+.jukit/
+
+# ---- Logs ----
+*.log
+
+# ---- Local data / artifacts ----
+*.db
+
+# ---- Test cache ----
+.pytest_cache/
+
+

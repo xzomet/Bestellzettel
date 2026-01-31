@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "atlantik"
+version = "0.1.0"
+description = ""
+authors = ["xzomet <enistuzer@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+psycopg2-binary = "^2.9.11"
+fastapi = "^0.128.0"
+uvicorn = "^0.40.0"
+ipython = "^9.9.0"
+matplotlib = "^3.10.8"
+pytest = "^9.0.2"
+pytest-asyncio = "^1.3.0"
+httpx = "^0.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
