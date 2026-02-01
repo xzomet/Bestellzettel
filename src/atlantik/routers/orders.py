@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from atlantik.database import get_db_cursor
+from atlantik.routers.tables import get_table
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -89,7 +90,7 @@ def add_item(
 
 @router.patch("/{order_id}/status")
 def update_order_status(order_id: int, status: str):
-    if status not in ("open", "preparing", "ready", "closed"):
+    if status not in ("open", "preparing", "ready", "closed", "cancelled"):
         raise HTTPException(status_code=400, detail="Invalid status")
 
     with get_db_cursor() as cur:
@@ -115,12 +116,28 @@ def close_order(order_id: int):
     with get_db_cursor() as cur:
         cur.execute(
             """
-            UPDATE orders
-            SET status = 'closed'
-            WHERE id = %s AND status != 'closed'
-            RETURNING id
+            SELECT COUNT(*) AS item_count
+            FROM order_items
+            WHERE order_id = %s
             """,
             (order_id,),
+        )
+        item_count = cur.fetchone()["item_count"]
+
+        new_status = "cancelled" if item_count == 0 else "closed"
+
+        cur.execute(
+            """
+            UPDATE orders
+            SET status = %s
+            WHERE id = %s
+                AND status NOT IN ('closed', 'cancelled')
+            RETURNING id, status
+            """,
+            (
+                new_status,
+                order_id,
+            ),
         )
         row = cur.fetchone()
 
@@ -130,4 +147,7 @@ def close_order(order_id: int):
                 detail="Order already closed or does not exist",
             )
 
-    return {"status": "closed"}
+        return {
+            "order_id": row["id"],
+            "status": row["status"],
+        }

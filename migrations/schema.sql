@@ -39,7 +39,7 @@ CREATE TABLE menu_items (
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     table_id INTEGER NOT NULL REFERENCES tables(id),
-    status TEXT NOT NULL CHECK (status IN ('open','preparing','ready','closed')),
+    status TEXT NOT NULL CHECK (status IN ('open','preparing','ready','closed','cancelled')),
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
