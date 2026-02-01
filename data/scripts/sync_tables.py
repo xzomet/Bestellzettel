@@ -3,7 +3,7 @@ import os
 
 from atlantik.database import get_db_cursor
 
-TABLES_FILE = "../../data/tables.csv"
+TABLES_FILE = "../tables.csv"
 
 
 def sync_tables():
