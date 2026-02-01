@@ -1,5 +1,5 @@
 # main.py
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from atlantik.database import get_db_cursor
 
 from fastapi.staticfiles import StaticFiles
