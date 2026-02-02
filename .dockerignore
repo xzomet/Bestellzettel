@@ -1,0 +1,29 @@
+
+# Secrets
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Editor / IDE
+.vscode/
+.idea/
+.jukit/
+# OS files
+.DS_Store
+
+# Logs
+*.log

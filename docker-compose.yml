@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: atlantik-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: restaurant
+      POSTGRES_USER: waiter
+      POSTGRES_PASSWORD: ...
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/001_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./docker/postgres/002_seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+    ports:
+      - "5432:5432"   # optional, useful for debugging
+
+
+  api:
+    build: .
+    container_name: atlantik-api
+    depends_on:
+      - postgres
+    environment:
+      DB_NAME: restaurant
+      DB_USER: waiter
+      DB_PASSWORD: ...
+      DB_HOST: postgres
+      DB_PORT: 5432
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
