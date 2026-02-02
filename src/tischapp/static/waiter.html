@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>Waiter</title>
+        <link rel="stylesheet" href="/static/waiter.css">
+    </head>
+
+    <body>
+        <!-- ---------- TABLES VIEW ---------- -->
+        <div id="tables_view">
+            <h2>Select Table</h2>
+            <div id="tables"></div>
+        </div>
+
+        <!-- ---------- TABLE VIEW ---------- -->
+        <div id="table_view">
+            <div class="header-row">
+                <button id="close_order">Close Order</button>
+                <h2 id="table_title">Table 1</h2>
+            </div>
+
+            <div id="content_scroll">
+                <div id="order_section">
+                    <div id="order_items"></div>
+                    <div id="order_total"></div>
+                    <button id="back_btn">← Back to tables</button>
+                </div>
+
+                <div id="menu_section">
+                    <div id="menu"></div>
+                </div>
+            </div>
+
+            <div id="bottom_controls">
+                <div id="menu_domains"></div>
+                <div id="menu_categories"></div>
+            </div>
+        </div>
+
+        <script src="/static/waiter.js"></script>
+    </body>
+</html>
