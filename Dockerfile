@@ -15,10 +15,10 @@ COPY pyproject.toml poetry.lock ./
 
 RUN pip install --no-cache-dir poetry \
     && poetry config virtualenvs.create false \
-    && poetry install --no-root --no-interaction --no-ansi
+    && poetry install --no-root --no-interaction --no-ansi --only main
 
 COPY . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "atlantik.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "tischapp.main:app", "--host", "0.0.0.0", "--port", "8000"]

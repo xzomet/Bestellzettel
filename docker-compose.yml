@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16
-    container_name: atlantik-postgres
+    container_name: tischapp-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: restaurant
@@ -17,7 +17,7 @@ services:
 
   api:
     build: .
-    container_name: atlantik-api
+    container_name: tischapp-api
     depends_on:
       - postgres
     environment:

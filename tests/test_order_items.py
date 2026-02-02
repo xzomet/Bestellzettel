@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from atlantik.main import app
+from tischapp.main import app
 
 client = TestClient(app)
 

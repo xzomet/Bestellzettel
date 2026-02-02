@@ -22,4 +22,8 @@ __pycache__/
 # ---- Test cache ----
 .pytest_cache/
 
+# sh scripts
+*.sh
 
+# ---- Private ----
+ROADMAP.md

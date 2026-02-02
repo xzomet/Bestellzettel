@@ -1,7 +1,9 @@
 
+
 # Secrets
 .env
 .env.*
+ROADMAP.md
 
 # Git
 .git
@@ -27,3 +29,6 @@ venv/
 
 # Logs
 *.log
+
+# sh scripts
+*.sh

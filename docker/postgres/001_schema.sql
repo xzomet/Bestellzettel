@@ -31,6 +31,7 @@ CREATE TABLE tables (
 
 CREATE TABLE menu_items (
     id SERIAL PRIMARY KEY,
+    category TEXT NOT NULL DEFAULT 'other',
     name TEXT NOT NULL,
     price_cents INTEGER NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT true
