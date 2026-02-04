@@ -4,7 +4,24 @@ VALUES
   ('Table 1', true),
   ('Table 2', true),
   ('Table 3', true),
-  ('Table 4', true)
+  ('Table 4', true),
+  ('Table 5', true),
+  ('Table 6', true),
+  ('Table 7', true),
+  ('Table 8', true),
+  ('Table 9', true),
+  ('Table 10', true),
+  ('Table 11', true),
+  ('Table 12', true),
+  ('Table 13', true),
+  ('Table 14', true),
+  ('Table 15', true),
+  ('Table 16', true),
+  ('Table 17', true),
+  ('Table 18', true),
+  ('Table 19', true),
+  ('Table 20', true),
+  ('Table 21', true)
 ON CONFLICT DO NOTHING;
 
 -- VORSPEISEN / APPETIZERS
