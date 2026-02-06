@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from tischapp.main import app
+from bestellzettel.main import app
 
 client = TestClient(app)
 

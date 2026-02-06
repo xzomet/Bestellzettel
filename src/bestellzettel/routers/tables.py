@@ -1,5 +1,5 @@
-from fastapi import APIRouter, HTTPException
-from tischapp.database import get_db_cursor
+from fastapi import APIRouter
+from bestellzettel.database import get_db_cursor
 
 router = APIRouter(prefix="/tables", tags=["tables"])
 
@@ -8,11 +8,20 @@ router = APIRouter(prefix="/tables", tags=["tables"])
 def get_tables():
     with get_db_cursor() as cur:
         cur.execute("""
-            SELECT id, name
-            FROM tables
-            WHERE is_active = True
-            ORDER BY id
-            """)
+        SELECT
+            t.id,
+            t.name,
+            CASE
+                WHEN EXISTS (
+                    SELECT 1 FROM orders o
+                    WHERE o.table_id = t.id AND o.status = 'open'
+                ) THEN 'open'
+                ELSE 'available'
+            END as order_status
+        FROM tables t
+        WHERE t.is_active = True
+        ORDER BY t.id
+        """)
         return {"tables": cur.fetchall()}
 
 
@@ -44,9 +53,14 @@ def get_table(table_id):
 
         cur.execute(
             """
-            SELECT *
-            FROM order_items
-            WHERE order_id = %s
+            SELECT
+                oi.menu_item_id,
+                oi.quantity,
+                oi.price_cents,
+                oi.notes
+            FROM order_items oi
+            WHERE oi.order_id = %s
+            ORDER BY oi.created_at;
             """,
             (order_id,),
         )
@@ -55,7 +69,7 @@ def get_table(table_id):
         cur.execute(
             """
             SELECT
-            COALESCE(SUM(oi.quantity * mi.price_cents), 0) AS total_price_cents
+            COALESCE(SUM(oi.quantity * oi.price_cents), 0) AS total_price_cents
             FROM order_items oi
             JOIN menu_items mi ON mi.id = oi.menu_item_id
             WHERE oi.order_id = %s

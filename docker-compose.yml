@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16
-    container_name: tischapp-postgres
+    container_name: bestellzettel-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: restaurant
@@ -17,7 +17,7 @@ services:
 
   api:
     build: .
-    container_name: tischapp-api
+    container_name: bestellzettel-api
     depends_on:
       - postgres
     environment:

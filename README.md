@@ -1,4 +1,4 @@
-# Tischapp – Restaurant Order System
+# Bestellzettel – Restaurant Order System
 
 A lightweight, self-hosted restaurant order management system built for real-world use.
 
@@ -42,7 +42,7 @@ It is designed to be usable on phones and tablets by waiters, and easily extenda
 ## Project Structure
 ```
 ├── src
-│   └── tischapp
+│   └── bestellzettel
 │       ├── static
 │       │   ├── waiter.html
 │       │   └── waiter.js

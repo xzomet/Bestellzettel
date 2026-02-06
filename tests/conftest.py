@@ -1,5 +1,5 @@
 import pytest
-from tischapp.database import get_db_cursor
+from bestellzettel.database import get_db_cursor
 
 
 @pytest.fixture(autouse=True)

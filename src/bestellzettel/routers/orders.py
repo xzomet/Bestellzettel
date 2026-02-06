@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from tischapp.database import get_db_cursor
-from tischapp.routers.tables import get_table
+from bestellzettel.database import get_db_cursor
+from bestellzettel.routers.tables import get_table
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -70,10 +70,18 @@ def add_item(
             if delta > 0:
                 cur.execute(
                     """
-                    INSERT INTO order_items (order_id, menu_item_id, quantity, notes)
-                    VALUES (%s, %s, %s, %s)
+                    INSERT INTO order_items (
+                        order_id,
+                        menu_item_id,
+                        quantity,
+                        price_cents,
+                        notes
+                    )
+                    SELECT %s, id, %s, price_cents, %s
+                    FROM menu_items
+                    WHERE id = %s
                     """,
-                    (order_id, menu_item_id, delta, notes),
+                    (order_id, delta, notes, menu_item_id),
                 )
         else:
             if row["quantity"] <= 0:
@@ -129,7 +137,7 @@ def close_order(order_id: int):
         cur.execute(
             """
             UPDATE orders
-            SET status = %s
+            SET status = %s, closed_at = now()
             WHERE id = %s
                 AND status NOT IN ('closed', 'cancelled')
             RETURNING id, status
@@ -151,3 +159,24 @@ def close_order(order_id: int):
             "order_id": row["id"],
             "status": row["status"],
         }
+
+
+@router.get("/orders/history")
+def get_history():
+    with get_db_cursor() as cur:
+        cur.execute("""
+            SELECT
+                o.id,
+                o.table_id,
+                o.status,
+                o.created_at,
+                o.closed_at,
+            SUM(oi.quantity * oi.price_cents) AS total_price_cents
+            FROM orders o
+            LEFT JOIN order_items oi ON oi.order_id = o.id
+            WHERE o.status IN ('closed', 'cancelled')
+            GROUP BY o.id
+            ORDER BY o.closed_at DESC
+            LIMIT 50
+            """)
+        return {"history": cur.fetchall()}

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from tischapp.database import get_db_cursor
+from bestellzettel.database import get_db_cursor
 
 router = APIRouter(prefix="/menu", tags=["menu"])
 

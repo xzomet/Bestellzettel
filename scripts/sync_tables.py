@@ -1,7 +1,7 @@
 import csv
 import os
 
-from tischapp.database import get_db_cursor
+from bestellzettel.database import get_db_cursor
 
 TABLES_FILE = "data/tables.csv"
 

@@ -1,6 +1,6 @@
 import csv
 
-from tischapp.database import get_db_cursor
+from bestellzettel.database import get_db_cursor
 
 MENU_FILE = "data/menu.csv"
 

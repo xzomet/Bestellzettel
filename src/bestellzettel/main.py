@@ -3,8 +3,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from tischapp.database import get_db_cursor
-from tischapp.routers import orders, menu, tables
+from bestellzettel.database import get_db_cursor
+from bestellzettel.routers import orders, menu, tables
 
 app = FastAPI(title="Restaurant Management API")
 
@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 
-app.mount("/static", StaticFiles(directory="src/tischapp/static"), name="static")
+app.mount("/static", StaticFiles(directory="src/bestellzettel/static"), name="static")
 
 
 @app.get("/")

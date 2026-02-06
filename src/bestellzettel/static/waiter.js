@@ -54,6 +54,10 @@ async function loadTables() {
         const btn = document.createElement("button");
         btn.textContent = table.name;
 
+        if (table.order_status == "open") {
+            btn.classList.add("table-open");
+        }
+
         btn.onclick = () => loadTable(table.id);
 
         tablesDiv.appendChild(btn);
@@ -87,25 +91,37 @@ async function loadTable(table_id) {
 
     data.order_items.forEach((item) => {
         const row = document.createElement("div");
+        row.className = "order-row";
 
+        // minus
         const minusBtn = document.createElement("button");
+        minusBtn.className = "minus";
         minusBtn.textContent = "−";
-        minusBtn.onclick = () => updateItem(item.menu_item_id, -1);
+        minusBtn.onclick = (e) => {
+            e.stopPropagation();
+            updateItem(item.menu_item_id, -1);
+        };
 
-        const plusBtn = document.createElement("button");
-        plusBtn.textContent = "+";
-        plusBtn.onclick = () => updateItem(item.menu_item_id, +1);
+        // name
+        const name = document.createElement("span");
+        name.className = "item-name";
+        name.textContent = menuById[item.menu_item_id].name;
 
-        const menuItem = menuById[item.menu_item_id];
-        const label = document.createElement("span");
-        label.textContent = ` ${menuItem.name} x${item.quantity} (€${
-            (menuItem.price_cents / 100).toFixed(2)
-        }) `;
+        // price
+        const price = document.createElement("span");
+        price.className = "item-price";
+        price.textContent = (menuById[item.menu_item_id].price_cents / 100)
+            .toFixed(2);
 
-        row.appendChild(minusBtn);
-        row.appendChild(label);
-        row.appendChild(plusBtn);
+        // qty
+        const qty = document.createElement("span");
+        qty.className = "item-qty";
+        qty.textContent = `×${item.quantity}`;
 
+        // tap row = add
+        row.onclick = () => updateItem(item.menu_item_id, +1);
+
+        row.append(minusBtn, name, price, qty);
         orderDiv.appendChild(row);
     });
 }
@@ -259,10 +275,10 @@ document.addEventListener("DOMContentLoaded", () => {
         closeOrder();
     };
 
-    document.getElementById("back_btn").onclick = () => {
+    document.getElementById("back_btn").onclick = async () => {
         currentTableId = null;
         currentOrderId = null;
-        showView("tables");
+        await loadTables();
     };
 
     loadMenu();
